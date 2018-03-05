@@ -9,5 +9,5 @@ This is the starting station of our love train, it will travel through numerous 
 
 May our love last forever, love you na!
 
-![lina](../src/lina.jpg)
+![lina](http://ozlcirvd6.bkt.clouddn.com/lina.jpg)
 
