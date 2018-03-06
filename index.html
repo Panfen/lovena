@@ -13,6 +13,86 @@
   <script type="text/javascript" src="./src/jscex-async-powerpack.min.js"></script>
   <script type="text/javascript" src="./src/functions.js" charset="utf-8"></script>
   <script type="text/javascript" src="./src/love.js" charset="utf-8"></script>
+  <style type="text/css">
+    .rotateClass{
+      -webkit-transform:translate3d(0,0,0);
+      -moz-transform:translate3d(0,0,0);
+      transform:translate3d(0,0,0);
+      /* 设置动画，animation:动画名称 动画播放时长单位秒或微秒 动画播放的速度曲线linear为匀速 动画播放次数infinite为循环播放; */
+      -webkit-animation:play 3s linear infinite;
+      -moz-animation:play 3s linear infinite;
+      animation:play 3s linear infinite;
+    }
+    @-webkit-keyframes play{
+      0%  {
+        /*
+        水平翻转
+        */
+        /*-webkit-transform:rotateY(0deg);*/
+        /*
+        垂直翻转
+        -webkit-transform:rotateX(0deg);
+        顺时针旋转
+        -webkit-transform:rotate(0deg);
+        逆时针旋转
+        -webkit-transform:rotate(0deg);
+        */
+        -webkit-transform:rotateX(0deg);
+      }
+      100% {
+        -webkit-transform:rotate(360deg);
+        /* 水平翻转 */
+        /*-webkit-transform:rotateY(360deg);*/
+        /* 垂直翻转
+        -webkit-transform:rotateX(360deg);
+        顺时针旋转
+        -webkit-transform:rotate(360deg);
+        逆时针旋转
+        -webkit-transform:rotate(-360deg);
+        */
+      }
+    }
+    @-moz-keyframes play{
+      0%  {
+        -moz-transform:rotate(0deg);
+        /*-moz-transform:rotateY(0deg);*/
+        /*
+        -moz-transform:rotateX(0deg);
+        -moz-transform:rotate(0deg);
+        -moz-transform:rotate(0deg);
+        */
+      }
+      100% {
+        -moz-transform:rotate(360deg);
+        /*-moz-transform:rotateY(360deg);*/
+        /*
+        -moz-transform:rotateX(360deg);
+        -moz-transform:rotate(360deg);
+        -moz-transform:rotate(-360deg);
+        */
+      }
+    }
+    @keyframes play{
+      0%  {
+         transform:rotate(0deg);
+       /* transform:rotateY(0deg);*/
+        /*
+        transform:rotateX(0deg);
+        transform:rotate(0deg);
+        transform:rotate(0deg);
+        */
+      }
+      100% {
+         transform:rotate(360deg);
+       /* transform:rotateY(360deg);*/
+        /*
+        transform:rotateX(360deg);
+        transform:rotate(360deg);
+        transform:rotate(-360deg);
+        */
+      }
+    }
+  </style>
 </head>
   <body>
     <div id="main">
@@ -49,19 +129,50 @@
         </div>
         <canvas id="canvas" width="1100" height="680"></canvas>
       </div>
-      <audio id="music" src="./src/Luv Letter.mp3" loop="loop"></audio>
+      <audio id="audio" src="./src/Luv Letter.mp3" loop="loop" autoplay="autoplay"></audio>
+      <div style="width: 20px;height: 20px; position: absolute; top: 20px;right: 10px;z-index: 100" class="btn-audio rotateClass">
+        <img src="./src/music.jpg"/ width="20" height="20">
+      </div>
     </div>
-  
-  <script>
+
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> 
+  <script type="text/javascript">
+    document.addEventListener("WeixinJSBridgeReady", function () { 
+      document.getElementById('audio').play(); 
+      //document.getElementById('video').play(); 
+    }, false);
+    $(document).ready(function(){ 
+        //播放完毕
+        $('#audio').on('ended', function() {
+          console.log("音频已播放完成");
+          $('.btn-audio').removeClass('rotateClass');
+        });
+        //播放器控制
+        var audio = document.getElementById('audio');
+        audio.volume = .3;
+        $('.btn-audio').click(function() {
+          event.stopPropagation();
+          if(audio.paused){
+            $('.btn-audio').addClass('rotateClass');
+            audio.play();
+            return;
+          }else{
+            $('.btn-audio').removeClass('rotateClass');
+            audio.pause(); 
+          }
+        });
+      });
   </script>
 
   <script>
   (function(){
 
     //解决ios audio 无法自动播放问题
+    /*
     Media = document.getElementById("music");
     Media.src = "./src/Luv Letter.mp3"; 
     Media.play();
+    */
 
     var canvas = $('#canvas');
 
